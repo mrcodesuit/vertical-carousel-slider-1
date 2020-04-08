@@ -28,8 +28,10 @@ let playing = false;
 
 // Slide handler
 const slide = (dir) => {
+	console.log(playing);
 	if (!playing) {
 		playing = true;
+		console.log(playing);
 
 		if (current + dir < 0) {
 			current = images.length - 1;
@@ -38,51 +40,51 @@ const slide = (dir) => {
 		} else {
 			current += dir;
 		}
-	}
 
-	const up = (part, next) => {
-		part.appendChild(next);
-		anime({
-			targets: part,
-			duration: 2500,
-			easing: 'easeInOutQuart',
-			translateY: [0, -window.innerHeight],
-			complete: () => {
-				part.removeChild(part.childNodes[0]);
-				playing = false;
-				part.style.transform = 'translateY(0)';
-			},
-		});
-	};
+		const up = (part, next) => {
+			part.appendChild(next);
+			anime({
+				targets: part,
+				duration: 2500,
+				easing: 'easeInOutQuart',
+				translateY: [0, -window.innerHeight],
+				complete: () => {
+					part.removeChild(part.childNodes[0]);
+					playing = false;
+					part.style.transform = 'translateY(0)';
+				},
+			});
+		};
 
-	const down = (part, next) => {
-		part.insertBefore(next, part.firstChild);
-		anime({
-			targets: part,
-			duration: 2500,
-			easing: 'easeInOutQuart',
-			translateY: [-window.innerHeight, 0],
-			complete: () => {
-				part.removeChild(part.childNodes[1]);
-				playing = false;
-			},
-		});
-	};
+		const down = (part, next) => {
+			part.insertBefore(next, part.firstChild);
+			anime({
+				targets: part,
+				duration: 2500,
+				easing: 'easeInOutQuart',
+				translateY: [-window.innerHeight, 0],
+				complete: () => {
+					part.removeChild(part.childNodes[1]);
+					playing = false;
+				},
+			});
+		};
 
-	for (let p in parts) {
-		let part = parts[p];
-		let next = document.createElement('div');
-		next.className = 'section';
+		for (let p in parts) {
+			let part = parts[p];
+			let next = document.createElement('div');
+			next.className = 'section';
 
-		let img = document.createElement('img');
-		img.src = images[current];
+			let img = document.createElement('img');
+			img.src = images[current];
 
-		next.appendChild(img);
+			next.appendChild(img);
 
-		if ((p - Math.max(0, dir)) % 2 === 0) {
-			down(part, next);
-		} else {
-			up(part, next);
+			if ((p - Math.max(0, dir)) % 2 === 0) {
+				down(part, next);
+			} else {
+				up(part, next);
+			}
 		}
 	}
 };
