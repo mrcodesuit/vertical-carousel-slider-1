@@ -28,11 +28,9 @@ let playing = false;
 
 // Slide handler
 const slide = (dir) => {
-	console.log(playing);
 	if (!playing) {
 		playing = true;
-		console.log(playing);
-
+		
 		if (current + dir < 0) {
 			current = images.length - 1;
 		} else if (current + dir >= images.length) {
